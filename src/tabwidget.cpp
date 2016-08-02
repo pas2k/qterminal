@@ -98,14 +98,22 @@ int TabWidget::addNewTab(const QString & shell_program)
     return index;
 }
 
-void TabWidget::switchNextSubterminal()
+void TabWidget::switchLeftSubterminal()
 {
-    terminalHolder()->switchNextSubterminal();
+    terminalHolder()->directionalNavigation(NavigationDirection::Left);
 }
 
-void TabWidget::switchPrevSubterminal()
+void TabWidget::switchRightSubterminal()
 {
-    terminalHolder()->switchPrevSubterminal();
+    terminalHolder()->directionalNavigation(NavigationDirection::Right);
+}
+
+void TabWidget::switchTopSubterminal() {
+    terminalHolder()->directionalNavigation(NavigationDirection::Top);
+}
+
+void TabWidget::switchBottomSubterminal() {
+    terminalHolder()->directionalNavigation(NavigationDirection::Bottom);
 }
 
 void TabWidget::splitHorizontally()
@@ -433,7 +441,7 @@ void TabWidget::preset2Horizontal()
     TermWidgetHolder* term = reinterpret_cast<TermWidgetHolder*>(widget(ix));
     term->splitHorizontal(term->currentTerminal());
     // switch to the 1st terminal
-    term->switchNextSubterminal();
+    term->directionalNavigation(NavigationDirection::Left);
 }
 
 void TabWidget::preset2Vertical()
@@ -442,7 +450,7 @@ void TabWidget::preset2Vertical()
     TermWidgetHolder* term = reinterpret_cast<TermWidgetHolder*>(widget(ix));
     term->splitVertical(term->currentTerminal());
     // switch to the 1st terminal
-    term->switchNextSubterminal();
+    term->directionalNavigation(NavigationDirection::Left);
 }
 
 void TabWidget::preset4Terminals()
@@ -451,11 +459,11 @@ void TabWidget::preset4Terminals()
     TermWidgetHolder* term = reinterpret_cast<TermWidgetHolder*>(widget(ix));
     term->splitVertical(term->currentTerminal());
     term->splitHorizontal(term->currentTerminal());
-    term->switchNextSubterminal();
-    term->switchNextSubterminal();
+    term->directionalNavigation(NavigationDirection::Left);
+
     term->splitHorizontal(term->currentTerminal());
     // switch to the 1st terminal
-    term->switchNextSubterminal();
+    term->directionalNavigation(NavigationDirection::Top);
 }
 
 void TabWidget::showHideTabBar()

@@ -54,8 +54,11 @@ public slots:
     void renameCurrentSession();
     void setWorkDirectory(const QString&);
 
-    void switchNextSubterminal();
-    void switchPrevSubterminal();
+    void switchLeftSubterminal();
+    void switchRightSubterminal();
+    void switchTopSubterminal();
+    void switchBottomSubterminal();
+
     void splitHorizontally();
     void splitVertically();
     void splitCollapse();
