@@ -486,7 +486,6 @@ void MainWindow::toggleBookmarks()
     m_bookmarksDock->toggleViewAction()->trigger();
 }
 
-
 void MainWindow::closeEvent(QCloseEvent *ev)
 {
     if (!Properties::Instance()->askOnExit
