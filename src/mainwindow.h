@@ -99,7 +99,6 @@ private slots:
     void toggleMenu();
 
     void showFullscreen(bool fullscreen);
-    void toggleBookmarks();
     void showHide();
     void setKeepOpen(bool value);
     void find();
