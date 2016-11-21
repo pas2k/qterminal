@@ -26,6 +26,7 @@
 #include "properties.h"
 #include "fontdialog.h"
 #include "config.h"
+#include "qterminalapp.h"
 
 
 PropertiesDialog::PropertiesDialog(QWidget *parent)
@@ -234,7 +235,8 @@ void PropertiesDialog::chooseBackgroundImageButton_clicked()
 
 void PropertiesDialog::saveShortcuts()
 {
-    QList< QString > shortcutKeys = Properties::Instance()->actions.keys();
+    QMap<QString, QAction*> actions = QTerminalApp::Instance()->getWindowList()[0]->leaseActions();
+    QList< QString > shortcutKeys = actions.keys();
     int shortcutCount = shortcutKeys.count();
 
     shortcutsWidget->setRowCount( shortcutCount );
@@ -242,7 +244,7 @@ void PropertiesDialog::saveShortcuts()
     for( int x=0; x < shortcutCount; x++ )
     {
         QString keyValue = shortcutKeys.at(x);
-        QAction *keyAction = Properties::Instance()->actions[keyValue];
+        QAction *keyAction = actions[keyValue];
 
         QTableWidgetItem *item = shortcutsWidget->item(x, 1);
         QKeySequence sequence = QKeySequence(item->text());
@@ -250,11 +252,13 @@ void PropertiesDialog::saveShortcuts()
 
         keyAction->setShortcut(sequenceString);
     }
+    Properties::Instance()->saveSettings();
 }
 
 void PropertiesDialog::setupShortcuts()
 {
-    QList< QString > shortcutKeys = Properties::Instance()->actions.keys();
+    QMap<QString, QAction*> actions = QTerminalApp::Instance()->getWindowList()[0]->leaseActions();
+    QList< QString > shortcutKeys = actions.keys();
     int shortcutCount = shortcutKeys.count();
 
     shortcutsWidget->setRowCount( shortcutCount );
@@ -262,7 +266,7 @@ void PropertiesDialog::setupShortcuts()
     for( int x=0; x < shortcutCount; x++ )
     {
         QString keyValue = shortcutKeys.at(x);
-        QAction *keyAction = Properties::Instance()->actions[keyValue];
+        QAction *keyAction = actions[keyValue];
 
         QTableWidgetItem *itemName = new QTableWidgetItem( tr(keyValue.toStdString().c_str()) );
         QTableWidgetItem *itemShortcut = new QTableWidgetItem( keyAction->shortcut().toString() );

@@ -22,11 +22,13 @@
 #include "ui_qterminal.h"
 
 #include <QMainWindow>
+#include <QAction>
+
 #include "qxtglobalshortcut.h"
 
 class QToolButton;
 
-class MainWindow : public QMainWindow , private Ui::mainWindow
+class MainWindow : public QMainWindow, private Ui::mainWindow
 {
     Q_OBJECT
 
@@ -36,8 +38,8 @@ public:
                QWidget * parent = 0, Qt::WindowFlags f = 0);
     ~MainWindow();
 
-    bool dropMode() const { return m_dropMode; }
-    void setup_ContextMenu_Actions(QMenu* contextMenu) const;
+    bool dropMode() { return m_dropMode; }
+    QMap<QString, QAction*> & leaseActions();
 
 protected:
      bool event(QEvent* event);
@@ -50,10 +52,13 @@ private:
     QString m_initShell;
 
     QDockWidget *m_bookmarksDock;
-
+    QMap< QString, QAction * > actions;
+    
+    void rebuildActions();
     void setup_FileMenu_Actions();
     void setup_ActionsMenu_Actions();
     void setup_ViewMenu_Actions();
+    void setup_ContextMenu_Actions();
     void setupCustomDirs();
 
     void closeEvent(QCloseEvent*);
@@ -75,6 +80,7 @@ private slots:
     void actProperties_triggered();
     void updateActionGroup(QAction *);
 
+    void toggleBookmarks();
     void toggleBorderless();
     void toggleTabBar();
     void toggleMenu();
