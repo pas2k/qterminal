@@ -92,6 +92,7 @@ class TermWidgetHolder : public QWidget
         TermWidget * m_currentTerm;
 
         TermWidget * newTerm(TerminalConfig &cfg);
+        QString m_wdir;
 
     private slots:
         void setCurrentTerminal(TermWidget* term);
